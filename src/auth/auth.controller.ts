@@ -6,5 +6,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/sign-up')
-  async signIn() {}
+  async signIn() {
+    return true;
+  }
 }
