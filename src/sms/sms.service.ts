@@ -1,16 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SolapiMessageService } from 'solapi';
 import { getSolapiConfig } from 'src/configs/solapi.config';
 import { generateRandomCode } from 'src/util/auth.util';
 import { SendSmsDto } from './dto/send-sms.dto';
+import { REDIS_CLIENT } from 'src/cache/cache.provider';
+import { RedisClientType } from 'redis';
 
 @Injectable()
 export class SmsService {
   private readonly messageService: SolapiMessageService;
   private readonly solapiConfig;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject(REDIS_CLIENT) private readonly redis: RedisClientType,
+  ) {
     this.solapiConfig = getSolapiConfig(configService);
     this.messageService = new SolapiMessageService(
       this.solapiConfig.apiKey,
@@ -31,7 +36,13 @@ export class SmsService {
         text: message,
       });
 
-      return { success: true, code: verificationCode };
+      await this.redis.set(
+        `sms:verify:${dto.receiver}`, // 레디스에 저장된 key
+        verificationCode, // 인증코드
+        { EX: 180 }, // TTL 3분
+      );
+
+      return { success: true };
     } catch (error) {
       console.error('SMS 전송 실패:', error);
       return { success: false };

@@ -33,3 +33,13 @@ export class SignUpDto {
   @IsString()
   name!: string;
 }
+
+export class VerifyDto {
+  @IsString()
+  @IsNotEmpty()
+  code: string;
+
+  @IsString()
+  @IsNotEmpty()
+  phoneNum: string;
+}
