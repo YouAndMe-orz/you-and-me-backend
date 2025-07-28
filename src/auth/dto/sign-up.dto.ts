@@ -1,5 +1,4 @@
 import {
-  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -11,23 +10,15 @@ import { LoginType } from 'src/configs/login.type';
 export class SignUpDto {
   @IsNotEmpty()
   @IsEnum(LoginType)
-  loginType: LoginType;
+  loginType: LoginType = LoginType.PHONE;
 
   @IsOptional()
   @IsPhoneNumber('KR')
   phoneNum?: string;
 
-  @IsOptional()
-  @IsEmail()
-  email?: string;
-
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
-  socialId?: string;
-
-  @IsOptional()
-  @IsString()
-  profileImage?: string;
+  password: string;
 
   @IsNotEmpty()
   @IsString()
