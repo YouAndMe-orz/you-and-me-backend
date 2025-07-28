@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmModuleOptions } from './configs/database.config';
+import { SmsModule } from './sms/sms.module';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { typeOrmModuleOptions } from './configs/database.config';
     }),
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     AuthModule,
+    SmsModule,
+    CacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],
