@@ -47,6 +47,9 @@ export class AuthService {
       throw new BadRequestException('휴대폰 번호 인증이 필요합니다.');
     }
 
+    if (password.length !== 6) {
+      throw new BadRequestException('비밀번호는 6자리 이어야합니다');
+    }
     const hashedPassword = await bcrypt.hash(
       password,
       Number(this.authConstant.saltRound),
