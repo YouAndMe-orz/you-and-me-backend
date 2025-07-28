@@ -9,6 +9,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const PORT = configService.get<number>('SERVER_PORT');
 
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
+
   app.setGlobalPrefix('api', { exclude: ['/health-check'] });
   app.useGlobalPipes(
     new ValidationPipe({

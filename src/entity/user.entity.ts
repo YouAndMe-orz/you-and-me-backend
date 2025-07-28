@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber } from 'class-validator';
 import { LoginType } from 'src/configs/login.type';
 import {
   Column,
@@ -17,26 +17,24 @@ export class User {
   @IsNumber()
   id: number;
 
-  @IsString()
   @Column()
   name: string;
 
   @Column({ type: 'enum', enum: LoginType, default: LoginType.PHONE })
   loginType: LoginType;
 
-  @IsString()
   @Column({ nullable: true, unique: true })
   phoneNum: string;
 
-  @IsString()
   @Column({ nullable: true, unique: true })
   email: string;
 
-  @IsString()
   @Column({ nullable: true, unique: true })
   socialId: string;
 
-  @IsString()
+  @Column({ nullable: true })
+  password: string;
+
   @Column({ nullable: true })
   profileImage: string;
 

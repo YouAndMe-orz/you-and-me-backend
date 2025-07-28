@@ -14,8 +14,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   /**
-   * 휴대폰번호로 시작하기 (회원가입)
-   * @param sinUpDTO
+   * 회원가입 API (휴대폰 로그인전용)
+   * @param signUpDto
    * @returns
    */
   @ApiCreatedResponse({
@@ -28,9 +28,6 @@ export class AuthController {
           name: '조민수',
           loginType: 'PHONE',
           phoneNum: '01012345678',
-          email: null,
-          profileImage: 'https://cdn.../profile.jpg',
-          createdAt: '2025-07-28T07:34:00.000Z',
         },
       },
     },
@@ -87,4 +84,9 @@ export class AuthController {
   async verify(@Body() verifyDto: VerifyDto) {
     return await this.authService.verify(verifyDto);
   }
+
+  // @Post('/sign-in')
+  // async signIn(@Body() signInDto: SignInDto) {
+  //   return await this.authService.signIn(signInDto);
+  // }
 }
